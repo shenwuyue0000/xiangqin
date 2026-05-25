@@ -6,8 +6,10 @@
     <title>良缘荟 | 高端菁英相亲平台</title>
     <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (免费图标库) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* 基础样式与之前保持一致，新增了用户菜单相关样式 */
         * {
             margin: 0;
             padding: 0;
@@ -40,6 +42,7 @@
             padding: 0 32px;
         }
 
+        /* 导航栏 - 更新布局以容纳用户区域 */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -58,6 +61,7 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            position: relative;
         }
         .logo span {
             font-size: 1.2rem;
@@ -65,6 +69,7 @@
             background: none;
             color: #a57c3c;
         }
+        /* 右侧用户区域 */
         .nav-right {
             display: flex;
             align-items: center;
@@ -94,8 +99,6 @@
             color: #b47c44;
             transition: all 0.25s;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
         }
         .nav-btn:hover {
             background: #c7a55b;
@@ -103,6 +106,7 @@
             border-color: #c7a55b;
         }
 
+        /* 用户头像与下拉菜单 */
         .user-menu {
             position: relative;
             cursor: pointer;
@@ -166,7 +170,6 @@
             color: #4e3c2c;
             font-size: 0.85rem;
             font-weight: 500;
-            cursor: pointer;
         }
         .dropdown-item i {
             width: 20px;
@@ -180,6 +183,7 @@
             color: #b0553c;
         }
 
+        /* Hero 筛选卡片等跟原本风格一致 */
         .hero {
             text-align: center;
             padding: 70px 0 40px 0;
@@ -290,6 +294,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.25s;
         }
         .avatar {
             width: 110px;
@@ -425,6 +430,67 @@
             from { opacity: 0; bottom: 0; }
             to { opacity: 1; bottom: 35px; }
         }
+        /* 社交登录弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-card {
+            background: white;
+            width: 320px;
+            border-radius: 40px;
+            padding: 32px 28px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+            animation: scaleIn 0.2s ease;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0;}
+            to { transform: scale(1); opacity: 1;}
+        }
+        .modal-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            margin-bottom: 10px;
+        }
+        .social-login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 25px 0 15px;
+        }
+        .social-btn {
+            padding: 12px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .fb-btn {
+            background: #1877F2;
+            color: white;
+        }
+        .linkedin-btn {
+            background: #0A66C2;
+            color: white;
+        }
+        .social-btn:hover {
+            filter: brightness(0.92);
+            transform: translateY(-2px);
+        }
         @media (max-width: 760px) {
             .container { padding: 0 20px; }
             .hero h1 { font-size: 2.5rem; }
@@ -446,6 +512,7 @@
                 <a href="#">故事</a>
                 <a href="#" class="nav-btn">专属顾问</a>
             </div>
+            <!-- 用户菜单区：未登录显示登录按钮，登录后显示头像菜单 -->
             <div id="userMenuContainer"></div>
         </div>
     </div>
@@ -462,11 +529,71 @@
 </div>
 <div class="footer"><i class="fas fa-heart" style="color: #c7a55b; margin-right: 6px;"></i> 用心相遇 · 良缘荟高端婚恋</div>
 
-<script>
-    // ---------- 用户认证状态 ----------
-    let currentUser = null;
+<!-- 模态框（登录选择） -->
+<div id="loginModal" class="modal">
+    <div class="modal-card">
+        <i class="fas fa-heart" style="font-size: 2rem; color: #c7a55b;"></i>
+        <h3>连接你的社交账号</h3>
+        <p style="font-size: 0.8rem; color: #987f64;">体验更完整的良缘荟服务</p>
+        <div class="social-login-buttons">
+            <button id="fbMockBtn" class="social-btn fb-btn"><i class="fab fa-facebook-f"></i> 继续使用 Facebook</button>
+            <button id="linkedinMockBtn" class="social-btn linkedin-btn"><i class="fab fa-linkedin-in"></i> 继续使用 LinkedIn</button>
+        </div>
+        <div style="margin-top: 20px; font-size: 12px; color:#b29476;">🔒 模拟登录 · 仅用于演示交互</div>
+    </div>
+</div>
 
-    // 显示 toast 消息
+<script>
+    // ---------- 用户状态管理（模拟数据）----------
+    let currentUser = null;   // 存储登录用户信息 { provider, id, name, email, avatarInitials }
+    
+    // 模拟获取第三方资料
+    function mockSocialLogin(provider) {
+        // 返回模拟的用户数据
+        if (provider === 'facebook') {
+            return {
+                provider: 'facebook',
+                id: 'fb_123456',
+                name: '陈明远',
+                email: 'ming.chen@example.com',
+                avatarInitials: '陈',
+                providerIcon: 'fab fa-facebook'
+            };
+        } else if (provider === 'linkedin') {
+            return {
+                provider: 'linkedin',
+                id: 'li_789012',
+                name: '张语桐',
+                email: 'yutong.zhang@example.com',
+                avatarInitials: '张',
+                providerIcon: 'fab fa-linkedin'
+            };
+        }
+        return null;
+    }
+
+    // 存储用户到 localStorage 模拟持久化
+    function saveUserToLocal(user) {
+        if (user) {
+            localStorage.setItem('xiangqin_user', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('xiangqin_user');
+        }
+    }
+
+    function loadStoredUser() {
+        const stored = localStorage.getItem('xiangqin_user');
+        if (stored) {
+            try {
+                currentUser = JSON.parse(stored);
+                updateNavBar();      // 刷新导航栏显示
+            } catch(e) { console.warn(e); }
+        } else {
+            updateNavBar();
+        }
+    }
+
+    // 显示toast
     function showToast(message, isError = false) {
         const existing = document.querySelector('.toast-message');
         if(existing) existing.remove();
@@ -474,53 +601,51 @@
         toast.className = 'toast-message';
         toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-heart'}" style="margin-right: 8px;"></i>${message}`;
         document.body.appendChild(toast);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 300);
-        }, 2200);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2200);
     }
 
-    // 获取当前登录用户
-    async function fetchCurrentUser() {
-        try {
-            const res = await fetch('/api/me', { credentials: 'include' });
-            if (res.ok) {
-                currentUser = await res.json();
-            } else {
-                currentUser = null;
-            }
-        } catch (err) {
-            currentUser = null;
-        }
+    // 登出函数
+    function logout() {
+        currentUser = null;
+        saveUserToLocal(null);
         updateNavBar();
+        renderCards();   // 卡片数据无变动，但重新渲染以清理可能的UI残留
+        showToast("您已安全登出", false);
     }
 
-    // 登出
-    async function logout() {
-        window.location.href = '/logout';
+    // 完成登录流程
+    function performLogin(provider) {
+        const userData = mockSocialLogin(provider);
+        if (userData) {
+            currentUser = userData;
+            saveUserToLocal(currentUser);
+            updateNavBar();
+            closeModal();
+            showToast(`🎉 欢迎回来，${currentUser.name}`, false);
+        } else {
+            showToast("登录失败，请重试", true);
+        }
     }
 
-    // 渲染右上角 UI
+    // 渲染右上角UI (登录按钮 或 用户菜单)
     function updateNavBar() {
         const container = document.getElementById('userMenuContainer');
         if (!container) return;
         if (!currentUser) {
-            // 未登录：显示 Facebook 和 LinkedIn 登录按钮（直接跳转后端认证路由）
-            container.innerHTML = `
-                <div style="display: flex; gap: 12px;">
-                    <a href="/auth/facebook" class="nav-btn" style="background:#1877F2; color:white; border:none;"><i class="fab fa-facebook-f"></i> Facebook</a>
-                    <a href="/auth/linkedin" class="nav-btn" style="background:#0A66C2; color:white; border:none;"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-                </div>
-            `;
+            // 未登录状态：显示登录按钮
+            container.innerHTML = `<button class="nav-btn" id="triggerLoginBtn"><i class="fas fa-sign-in-alt"></i> 登录</button>`;
+            const loginBtn = document.getElementById('triggerLoginBtn');
+            if (loginBtn) loginBtn.onclick = (e) => { e.preventDefault(); openModal(); };
         } else {
-            const initials = currentUser.name ? currentUser.name.charAt(0) : 'U';
+            // 已登录: 显示头像菜单
+            const initials = currentUser.avatarInitials || currentUser.name.charAt(0);
             container.innerHTML = `
                 <div class="user-menu" id="userMenu">
                     <div class="user-avatar">${initials}</div>
                     <div class="dropdown-menu">
                         <div class="dropdown-header">
                             <p>${currentUser.name}</p>
-                            <span><i class="fab fa-${currentUser.provider}"></i> via ${currentUser.provider === 'facebook' ? 'Facebook' : 'LinkedIn'}</span>
+                            <span><i class="${currentUser.providerIcon || 'fab fa-id-card'}"></i>  via ${currentUser.provider === 'facebook' ? 'Facebook' : 'LinkedIn'}</span>
                         </div>
                         <div class="dropdown-item" id="profileItem"><i class="fas fa-user-circle"></i> 我的资料</div>
                         <div class="dropdown-item" id="likedItem"><i class="fas fa-heart"></i> 心动记录</div>
@@ -534,30 +659,25 @@
                 e.stopPropagation();
                 toggleDropdown();
             });
-            document.getElementById('logoutItem')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                logout();
-            });
-            document.getElementById('profileItem')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showToast("✨ 资料完善中，高端认证即将开放", false);
-                userMenu.classList.remove('active');
-            });
-            document.getElementById('likedItem')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showToast("💖 你的心动嘉宾都在这里", false);
-                userMenu.classList.remove('active');
-            });
+            // 处理菜单项点击
+            const logoutItem = document.getElementById('logoutItem');
+            const profileItem = document.getElementById('profileItem');
+            const likedItem = document.getElementById('likedItem');
+            if(logoutItem) logoutItem.addEventListener('click', (e) => { e.stopPropagation(); logout(); userMenu.classList.remove('active'); });
+            if(profileItem) profileItem.addEventListener('click', (e) => { e.stopPropagation(); showToast("✨ 资料完善中，高端认证即将开放", false); userMenu.classList.remove('active'); });
+            if(likedItem) likedItem.addEventListener('click', (e) => { e.stopPropagation(); showToast("💖 你的心动嘉宾都在这里", false); userMenu.classList.remove('active'); });
             // 点击外部关闭菜单
-            const closeDropdown = (ev) => {
-                if (!userMenu.contains(ev.target)) userMenu.classList.remove('active');
-            };
+            const closeDropdown = (ev) => { if (!userMenu.contains(ev.target)) userMenu.classList.remove('active'); };
             document.removeEventListener('click', closeDropdown);
             document.addEventListener('click', closeDropdown);
         }
     }
 
-    // ---------- 以下为原有的会员卡片数据和渲染逻辑 ----------
+    // 模态框控制
+    function openModal() { document.getElementById('loginModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('loginModal').style.display = 'none'; }
+
+    // ------------- 原有会员数据 -------------
     const usersData = [
         { id: 1, name: "陈雨桐", age: 28, gender: "女", occupation: "私募基金副总裁", city: "上海", bio: "金融精英，热爱马术和古典音乐，期待精神同频的伴侣。", likesCount: 47, isLiked: false, avatarColor: "6c5b7b" },
         { id: 2, name: "赵禹博", age: 33, gender: "男", occupation: "建筑设计总监", city: "杭州", bio: "留英建筑学硕士，痴迷摄影与旅行，愿寻一同看世界的你。", likesCount: 32, isLiked: false, avatarColor: "2c6e9e" },
@@ -570,12 +690,13 @@
         { id: 9, name: "叶知秋", age: 29, gender: "女", occupation: "律师", city: "南京", bio: "理性也爱撒娇，喜欢爵士乐，想谈一场双向奔赴的恋爱。", likesCount: 45, isLiked: false, avatarColor: "b2594b" },
         { id: 10, name: "程以安", age: 36, gender: "男", occupation: "国际品牌PR", city: "上海", bio: "幽默绅士，钟爱烹饪与电影，寻找一起创造美好日常的你。", likesCount: 29, isLiked: false, avatarColor: "4e6e5e" }
     ];
-
+    
+    // 辅助函数
     function getAvatarUrl(name, bgColor) {
         let color = bgColor || "b3a582";
         return `https://ui-avatars.com/api/?background=${color}&color=fff&bold=true&size=120&length=2&name=${encodeURIComponent(name)}`;
     }
-
+    
     let currentGenderFilter = "all";
     let currentAgeFilter = "all";
     function isAgeInRange(age, rangeStr) {
@@ -599,10 +720,7 @@
     function renderCards() {
         const container = document.getElementById('cardsContainer');
         const filtered = getFilteredUsers();
-        if (!filtered.length) {
-            container.innerHTML = `<div class="no-result"><i class="fas fa-search" style="font-size: 2rem;"></i><br>暂无符合条件的会员</div>`;
-            return;
-        }
+        if (!filtered.length) { container.innerHTML = `<div class="no-result"><i class="fas fa-search" style="font-size: 2rem;"></i><br>暂无符合条件的会员</div>`; return; }
         let html = '';
         filtered.forEach(user => {
             const avatarUrl = getAvatarUrl(user.name, user.avatarColor);
@@ -617,36 +735,16 @@
                 </div></div>`;
         });
         container.innerHTML = html;
-        document.querySelectorAll('.like-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleLike(parseInt(btn.dataset.id));
-            });
-        });
+        document.querySelectorAll('.like-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); toggleLike(parseInt(btn.dataset.id)); }));
     }
-    function updateFiltersAndRender() {
-        currentGenderFilter = document.getElementById('filterGender').value;
-        currentAgeFilter = document.getElementById('filterAge').value;
-        renderCards();
-    }
-    function resetFilters() {
-        document.getElementById('filterGender').value = 'all';
-        document.getElementById('filterAge').value = 'all';
-        currentGenderFilter = 'all';
-        currentAgeFilter = 'all';
-        renderCards();
-        showToast("筛选已重置");
-    }
-    function initListeners() {
-        document.getElementById('filterGender')?.addEventListener('change', updateFiltersAndRender);
-        document.getElementById('filterAge')?.addEventListener('change', updateFiltersAndRender);
-        document.getElementById('resetFilterBtn')?.addEventListener('click', resetFilters);
-    }
-
+    function updateFiltersAndRender() { currentGenderFilter = document.getElementById('filterGender').value; currentAgeFilter = document.getElementById('filterAge').value; renderCards(); }
+    function resetFilters() { document.getElementById('filterGender').value = 'all'; document.getElementById('filterAge').value = 'all'; currentGenderFilter = 'all'; currentAgeFilter = 'all'; renderCards(); showToast("筛选已重置"); }
+    function initListeners() { document.getElementById('filterGender')?.addEventListener('change', updateFiltersAndRender); document.getElementById('filterAge')?.addEventListener('change', updateFiltersAndRender); document.getElementById('resetFilterBtn')?.addEventListener('click', resetFilters); document.getElementById('fbMockBtn')?.addEventListener('click', () => performLogin('facebook')); document.getElementById('linkedinMockBtn')?.addEventListener('click', () => performLogin('linkedin')); window.onclick = (e) => { if (e.target === document.getElementById('loginModal')) closeModal(); }; }
+    
     // 页面初始化
-    async function init() {
+    function init() {
         initListeners();
-        await fetchCurrentUser();
+        loadStoredUser();
         renderCards();
     }
     init();
