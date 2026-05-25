@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>良缘荟 | 高端菁英相亲平台</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #faf8f5 0%, #f2efe9 100%);
+            color: #2c2a28;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2dbd1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b8aa9a;
+            border-radius: 10px;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(160, 140, 120, 0.2);
+            backdrop-filter: blur(2px);
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #c7a55b, #a57c3c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+        .logo span {
+            font-size: 1.2rem;
+            font-style: italic;
+            background: none;
+            color: #a57c3c;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #4e4036;
+            font-weight: 500;
+            transition: 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .nav-links a:hover {
+            color: #b47c44;
+        }
+        .nav-btn {
+            background: transparent;
+            border: 1.5px solid #c7a55b;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #b47c44;
+            transition: all 0.25s;
+        }
+        .nav-btn:hover {
+            background: #c7a55b;
+            color: white;
+            border-color: #c7a55b;
+        }
+
+        /* Hero区域 */
+        .hero {
+            text-align: center;
+            padding: 70px 0 50px 0;
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.8rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            color: #2f2a26;
+        }
+        .hero .accent {
+            color: #b47c44;
+            border-bottom: 2px solid rgba(180,124,68,0.3);
+            display: inline-block;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: #6b5a4e;
+            margin-top: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 筛选栏 */
+        .filter-bar {
+            background: rgba(255, 251, 245, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 70px;
+            padding: 12px 24px;
+            margin: 30px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.05);
+            border: 1px solid rgba(199,165,91,0.3);
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 5px 20px;
+            border-radius: 60px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+        .filter-group i {
+            color: #b47c44;
+            font-size: 1rem;
+        }
+        select {
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            color: #2c2a28;
+            cursor: pointer;
+            outline: none;
+        }
+        .reset-btn {
+            background: #efe3d6;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #7a5a3e;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .reset-btn:hover {
+            background: #e2cfbc;
+            color: #5a3e2a;
+        }
+
+        /* 卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 30px 0 60px;
+        }
+        /* 卡片动效 */
+        .member-card {
+            background: #ffffffea;
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(220, 195, 160, 0.5);
+            cursor: default;
+            animation: cardFloatUp 0.5s ease-out;
+        }
+        @keyframes cardFloatUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 45px -15px rgba(80, 60, 40, 0.2);
+            border-color: #e3caaa;
+        }
+        .card-img {
+            position: relative;
+            height: 190px;
+            background: #e9dfd3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.25s;
+        }
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+        .badge {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(255,250,235,0.9);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #b67e46;
+            letter-spacing: 0.5px;
+        }
+        .card-info {
+            padding: 20px 22px 24px;
+        }
+        .name-age {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+        .name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: -0.3px;
+        }
+        .age {
+            font-weight: 500;
+            color: #b67e46;
+            background: #fef3e8;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        .occupation, .location {
+            font-size: 0.85rem;
+            color: #7d6b5c;
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .occupation i, .location i {
+            width: 20px;
+            color: #bb956b;
+        }
+        .bio {
+            font-size: 0.8rem;
+            color: #5e5246;
+            margin: 14px 0 18px;
+            line-height: 1.45;
+            border-left: 2px solid #e7d5c2;
+            padding-left: 12px;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .like-btn {
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #947c62;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .like-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        .like-btn.liked {
+            color: #e35f5f;
+        }
+        .like-btn.liked i {
+            transform: scale(1.1);
+        }
+        .like-btn:hover {
+            background: #faf0e6;
+        }
+        .like-count {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .view-detail {
+            font-size: 0.75rem;
+            color: #b58d60;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed #dcc29e;
+        }
+        /* 无结果 */
+        .no-result {
+            text-align: center;
+            padding: 70px 20px;
+            background: #fff7ef;
+            border-radius: 50px;
+            margin: 30px 0;
+            color: #ab8a64;
+        }
+        /* footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-top: 1px solid #e1d3c6;
+            margin-top: 30px;
+            color: #ab8f74;
+            font-size: 0.8rem;
+        }
+        /* toast 提示 */
+        .toast-message {
+            position: fixed;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d2b28e6;
+            backdrop-filter: blur(12px);
+            color: #f5e7da;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            animation: fadeUp 0.3s ease;
+            pointer-events: none;
+            font-family: 'Inter', sans-serif;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; bottom: 0; }
+            to { opacity: 1; bottom: 35px; }
+        }
+        @media (max-width: 760px) {
+            .container {
+                padding: 0 20px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .filter-bar {
+                border-radius: 40px;
+                padding: 18px 16px;
+            }
+            .filter-group {
+                padding: 3px 14px;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <div class="logo">良缘荟 <span>· ÉLITE</span></div>
+        <div class="nav-links">
+            <a href="#">首页</a>
+            <a href="#">遇见</a>
+            <a href="#">故事</a>
+            <a href="#" class="nav-btn">专属顾问</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>相逢如诗，<span class="accent">心意相通</span></h1>
+        <p>汇聚城市菁英，以真挚联结未来。找到与你灵魂共鸣的同行者。</p>
+    </div>
+
+    <!-- 筛选栏 -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <i class="fas fa-venus-mars"></i>
+            <select id="filterGender">
+                <option value="all">全部性别</option>
+                <option value="女">女士</option>
+                <option value="男">男士</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <i class="fas fa-calendar-alt"></i>
+            <select id="filterAge">
+                <option value="all">全部年龄</option>
+                <option value="20-30">20 ~ 30岁</option>
+                <option value="31-40">31 ~ 40岁</option>
+                <option value="41-50">41 ~ 50岁</option>
+            </select>
+        </div>
+        <button class="reset-btn" id="resetFilterBtn"><i class="fas fa-undo-alt"></i> 重置筛选</button>
+    </div>
+
+    <!-- 会员卡片网格 -->
+    <div id="cardsContainer" class="cards-grid"></div>
+</div>
+<div class="footer">
+    <i class="fas fa-heart" style="color: #c7a55b; margin-right: 6px;"></i> 用心相遇 · 良缘荟高端婚恋
+</div>
+
+<script>
+    // ---------- Mock 会员数据 (高端质感) ----------
+    const usersData = [
+        { id: 1, name: "陈雨桐", age: 28, gender: "女", occupation: "私募基金副总裁", city: "上海", bio: "金融精英，热爱马术和古典音乐，期待精神同频的伴侣。", likesCount: 47, isLiked: false, avatarColor: "6c5b7b" },
+        { id: 2, name: "赵禹博", age: 33, gender: "男", occupation: "建筑设计总监", city: "杭州", bio: "留英建筑学硕士，痴迷摄影与旅行，愿寻一同看世界的你。", likesCount: 32, isLiked: false, avatarColor: "2c6e9e" },
+        { id: 3, name: "林晚晴", age: 26, gender: "女", occupation: "双语主持人", city: "北京", bio: "阳光开朗，热衷公益，期待一份真诚温暖的长期关系。", likesCount: 68, isLiked: false, avatarColor: "bc9a6c" },
+        { id: 4, name: "江一舟", age: 39, gender: "男", occupation: "科技公司CTO", city: "深圳", bio: "理性与浪漫并存，徒步爱好者，希望遇到灵魂伴侣。", likesCount: 21, isLiked: false, avatarColor: "4a6b7f" },
+        { id: 5, name: "沈清如", age: 31, gender: "女", occupation: "艺术品策展人", city: "成都", bio: "喜欢美术馆与下午茶，温柔坚定，期待细水长流的感情。", likesCount: 53, isLiked: false, avatarColor: "b28b5e" },
+        { id: 6, name: "许泽言", age: 35, gender: "男", occupation: "投行董事", city: "香港", bio: "高尔夫与威士忌，上进且顾家，期待相同价值观的你。", likesCount: 44, isLiked: false, avatarColor: "3a6b52" },
+        { id: 7, name: "宋乐怡", age: 27, gender: "女", occupation: "独立珠宝设计师", city: "苏州", bio: "浪漫细腻，养了一只布偶猫，期待温暖可靠的归宿。", likesCount: 59, isLiked: false, avatarColor: "c2835c" },
+        { id: 8, name: "周明远", age: 42, gender: "男", occupation: "医疗集团合伙人", city: "广州", bio: "马拉松爱好者，沉稳豁达，愿以真心换真心。", likesCount: 38, isLiked: false, avatarColor: "2f5d6e" },
+        { id: 9, name: "叶知秋", age: 29, gender: "女", occupation: "律师", city: "南京", bio: "理性也爱撒娇，喜欢爵士乐，想谈一场双向奔赴的恋爱。", likesCount: 45, isLiked: false, avatarColor: "b2594b" },
+        { id: 10, name: "程以安", age: 36, gender: "男", occupation: "国际品牌PR", city: "上海", bio: "幽默绅士，钟爱烹饪与电影，寻找一起创造美好日常的你。", likesCount: 29, isLiked: false, avatarColor: "4e6e5e" }
+    ];
+
+    // 为了让每个卡片头像视觉更精致，生成动态 avatar url (UI Avatars)
+    function getAvatarUrl(name, bgColor) {
+        // 优雅风格，背景色使用柔和色系
+        let color = bgColor ? bgColor : "b3a582";
+        return `https://ui-avatars.com/api/?background=${color}&color=fff&bold=true&size=120&length=2&name=${encodeURIComponent(name)}`;
+    }
+
+    // 补充头像颜色 & 初始化额外字段 (确保每个用户有头像颜色, likesCount存在)
+    for (let user of usersData) {
+        if (!user.avatarColor) user.avatarColor = "a48c6f";
+        if (typeof user.likesCount !== 'number') user.likesCount = Math.floor(Math.random() * 60) + 20;
+        if (typeof user.isLiked !== 'boolean') user.isLiked = false;
+    }
+
+    // 全局存储筛选条件
+    let currentGenderFilter = "all";
+    let currentAgeFilter = "all";
+
+    // 辅助: 判断年龄是否符合区间
+    function isAgeInRange(age, rangeStr) {
+        if (rangeStr === "all") return true;
+        if (rangeStr === "20-30") return age >= 20 && age <= 30;
+        if (rangeStr === "31-40") return age >= 31 && age <= 40;
+        if (rangeStr === "41-50") return age >= 41 && age <= 50;
+        return true;
+    }
+
+    // 筛选逻辑
+    function getFilteredUsers() {
+        return usersData.filter(user => {
+            // 性别筛选
+            if (currentGenderFilter !== "all" && user.gender !== currentGenderFilter) return false;
+            // 年龄筛选
+            if (!isAgeInRange(user.age, currentAgeFilter)) return false;
+            return true;
+        });
+    }
+
+    // 显示toast消息
+    function showToast(message, isError = false) {
+        const existingToast = document.querySelector('.toast-message');
+        if(existingToast) existingToast.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-heart'}" style="margin-right: 8px;"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 2200);
+    }
+
+    // 喜欢/取消喜欢核心逻辑 (更新数据并重新渲染)
+    function toggleLike(userId) {
+        const user = usersData.find(u => u.id === userId);
+        if (!user) return;
+        if (user.isLiked) {
+            // 取消喜欢
+            user.isLiked = false;
+            user.likesCount = Math.max(0, user.likesCount - 1);
+            showToast(`💔 已取消对 ${user.name} 的心动`, false);
+        } else {
+            user.isLiked = true;
+            user.likesCount += 1;
+            showToast(`✨ 你对 ${user.name} 表达了倾心 ✨`, false);
+            // 微小心跳动效模拟
+        }
+        // 重新渲染当前筛选结果
+        renderCards();
+    }
+
+    // 渲染卡片 (完全基于筛选后数据，并绑定事件)
+    function renderCards() {
+        const container = document.getElementById('cardsContainer');
+        if (!container) return;
+        const filtered = getFilteredUsers();
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="no-result"><i class="fas fa-search" style="font-size: 2rem; opacity: 0.6; margin-bottom: 16px; display: block;"></i>暂无符合条件的会员<br>试试调整筛选条件吧 ✨</div>`;
+            return;
+        }
+
+        let cardsHtml = '';
+        for (let user of filtered) {
+            const avatarUrl = getAvatarUrl(user.name, user.avatarColor);
+            const likedClass = user.isLiked ? 'liked' : '';
+            // 精美展示
+            cardsHtml += `
+                <div class="member-card" data-id="${user.id}">
+                    <div class="card-img">
+                        <img class="avatar" src="${avatarUrl}" alt="${user.name}">
+                        <div class="badge"><i class="fas fa-check-circle"></i> 实名认证</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="name-age">
+                            <span class="name">${user.name}</span>
+                            <span class="age">${user.age}岁</span>
+                        </div>
+                        <div class="occupation"><i class="fas fa-briefcase"></i> ${user.occupation}</div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> ${user.city}</div>
+                        <div class="bio">${user.bio.length > 55 ? user.bio.slice(0,55)+'…' : user.bio}</div>
+                        <div class="card-footer">
+                            <button class="like-btn ${likedClass}" data-id="${user.id}">
+                                <i class="fas ${user.isLiked ? 'fa-heart' : 'fa-heart'}"></i>
+                                <span class="like-count">${user.likesCount}</span>
+                            </button>
+                            <span class="view-detail"><i class="far fa-comment-dots"></i> 牵线</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        container.innerHTML = cardsHtml;
+
+        // 重新绑定所有喜欢按钮事件 (事件委托也可以，但直接绑定更清晰)
+        const likeBtns = document.querySelectorAll('.like-btn');
+        likeBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const cardDiv = btn.closest('.member-card');
+                if (!cardDiv) return;
+                const userId = parseInt(cardDiv.dataset.id);
+                if (userId) {
+                    toggleLike(userId);
+                }
+            });
+        });
+
+        // 附加卡片微交互（炫一点）鼠标移入心形微动
+        document.querySelectorAll('.member-card').forEach(card => {
+            const likeBtnInner = card.querySelector('.like-btn');
+            if(likeBtnInner){
+                likeBtnInner.addEventListener('mouseenter', (e) => {
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                });
+                likeBtnInner.addEventListener('mouseleave', (e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                });
+            }
+        });
+    }
+
+    // 从筛选控件获取值并刷新
+    function updateFiltersAndRender() {
+        const genderSelect = document.getElementById('filterGender');
+        const ageSelect = document.getElementById('filterAge');
+        currentGenderFilter = genderSelect.value;
+        currentAgeFilter = ageSelect.value;
+        renderCards();
+    }
+
+    // 重置筛选
+    function resetFilters() {
+        const genderSelect = document.getElementById('filterGender');
+        const ageSelect = document.getElementById('filterAge');
+        genderSelect.value = 'all';
+        ageSelect.value = 'all';
+        currentGenderFilter = 'all';
+        currentAgeFilter = 'all';
+        renderCards();
+        showToast("筛选已重置，展示全部优质会员", false);
+    }
+
+    // 初始化事件监听器
+    function initEventListeners() {
+        const genderSelect = document.getElementById('filterGender');
+        const ageSelect = document.getElementById('filterAge');
+        const resetBtn = document.getElementById('resetFilterBtn');
+        if (genderSelect) genderSelect.addEventListener('change', updateFiltersAndRender);
+        if (ageSelect) ageSelect.addEventListener('change', updateFiltersAndRender);
+        if (resetBtn) resetBtn.addEventListener('click', resetFilters);
+    }
+
+    // 页面首次加载
+    function init() {
+        initEventListeners();
+        renderCards();
+    }
+
+    // 启动
+    init();
+</script>
+</body>
+</html>
