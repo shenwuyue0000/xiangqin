@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>良缘荟 | 高端菁英相亲平台</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #faf8f5 0%, #f2efe9 100%);
+            color: #2c2a28;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2dbd1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b8aa9a;
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(160, 140, 120, 0.2);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #c7a55b, #a57c3c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .logo span {
+            font-size: 1.2rem;
+            font-style: italic;
+            background: none;
+            color: #a57c3c;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #4e4036;
+            font-weight: 500;
+            transition: 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .nav-links a:hover {
+            color: #b47c44;
+        }
+        .nav-btn {
+            background: transparent;
+            border: 1.5px solid #c7a55b;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #b47c44;
+            transition: all 0.25s;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            background: #c7a55b;
+            color: white;
+            border-color: #c7a55b;
+        }
+
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            background: #d9c7b0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #5a3f28;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            border: 2px solid #c7a55b;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            width: 220px;
+            z-index: 100;
+            display: none;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            border: 1px solid #e3cfb8;
+        }
+        .user-menu.active .dropdown-menu {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .dropdown-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0e6dd;
+            background: #fefaf5;
+        }
+        .dropdown-header p {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        .dropdown-header span {
+            font-size: 0.7rem;
+            color: #a58460;
+        }
+        .dropdown-item {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+            color: #4e3c2c;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .dropdown-item i {
+            width: 20px;
+            color: #b47c44;
+        }
+        .dropdown-item:hover {
+            background: #f9f1e8;
+        }
+        .logout-item {
+            border-top: 1px solid #f0e3d8;
+            color: #b0553c;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 70px 0 40px 0;
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.8rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            color: #2f2a26;
+        }
+        .hero .accent {
+            color: #b47c44;
+            border-bottom: 2px solid rgba(180,124,68,0.3);
+            display: inline-block;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: #6b5a4e;
+            margin-top: 16px;
+        }
+
+        .filter-bar {
+            background: rgba(255, 251, 245, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 70px;
+            padding: 12px 24px;
+            margin: 30px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.05);
+            border: 1px solid rgba(199,165,91,0.3);
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 5px 20px;
+            border-radius: 60px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+        .filter-group i {
+            color: #b47c44;
+            font-size: 1rem;
+        }
+        select {
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            color: #2c2a28;
+            cursor: pointer;
+            outline: none;
+        }
+        .reset-btn {
+            background: #efe3d6;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #7a5a3e;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .reset-btn:hover {
+            background: #e2cfbc;
+            color: #5a3e2a;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 30px 0 60px;
+        }
+        .member-card {
+            background: #ffffffea;
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(220, 195, 160, 0.5);
+            cursor: default;
+            animation: cardFloatUp 0.5s ease-out;
+        }
+        @keyframes cardFloatUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 45px -15px rgba(80, 60, 40, 0.2);
+            border-color: #e3caaa;
+        }
+        .card-img {
+            position: relative;
+            height: 190px;
+            background: #e9dfd3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+        .badge {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(255,250,235,0.9);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #b67e46;
+            letter-spacing: 0.5px;
+        }
+        .card-info {
+            padding: 20px 22px 24px;
+        }
+        .name-age {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+        .name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .age {
+            font-weight: 500;
+            color: #b67e46;
+            background: #fef3e8;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        .occupation, .location {
+            font-size: 0.85rem;
+            color: #7d6b5c;
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .occupation i, .location i {
+            width: 20px;
+            color: #bb956b;
+        }
+        .bio {
+            font-size: 0.8rem;
+            color: #5e5246;
+            margin: 14px 0 18px;
+            line-height: 1.45;
+            border-left: 2px solid #e7d5c2;
+            padding-left: 12px;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .like-btn {
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #947c62;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .like-btn i {
+            font-size: 1.2rem;
+        }
+        .like-btn.liked {
+            color: #e35f5f;
+        }
+        .like-btn:hover {
+            background: #faf0e6;
+        }
+        .like-count {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .no-result {
+            text-align: center;
+            padding: 70px 20px;
+            background: #fff7ef;
+            border-radius: 50px;
+            margin: 30px 0;
+            color: #ab8a64;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-top: 1px solid #e1d3c6;
+            margin-top: 30px;
+            color: #ab8f74;
+            font-size: 0.8rem;
+        }
+        .toast-message {
+            position: fixed;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d2b28e6;
+            backdrop-filter: blur(12px);
+            color: #f5e7da;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            animation: fadeUp 0.3s ease;
+            pointer-events: none;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; bottom: 0; }
+            to { opacity: 1; bottom: 35px; }
+        }
+        @media (max-width: 760px) {
+            .container { padding: 0 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .filter-bar { border-radius: 40px; padding: 18px 16px; }
+            .filter-group { padding: 3px 14px; }
+            .navbar { flex-direction: column; }
+            .nav-right { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo">良缘荟 <span>· ÉLITE</span></div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#">首页</a>
+                <a href="#">遇见</a>
+                <a href="#">故事</a>
+                <a href="#" class="nav-btn">专属顾问</a>
+            </div>
+            <div id="userMenuContainer"></div>
+        </div>
+    </div>
+    <div class="hero">
+        <h1>相逢如诗，<span class="accent">心意相通</span></h1>
+        <p>汇聚城市菁英，以真挚联结未来。找到与你灵魂共鸣的同行者。</p>
+    </div>
+    <div class="filter-bar">
+        <div class="filter-group"><i class="fas fa-venus-mars"></i><select id="filterGender"><option value="all">全部性别</option><option value="女">女士</option><option value="男">男士</option></select></div>
+        <div class="filter-group"><i class="fas fa-calendar-alt"></i><select id="filterAge"><option value="all">全部年龄</option><option value="20-30">20 ~ 30岁</option><option value="31-40">31 ~ 40岁</option><option value="41-50">41 ~ 50岁</option></select></div>
+        <button class="reset-btn" id="resetFilterBtn"><i class="fas fa-undo-alt"></i> 重置筛选</button>
+    </div>
+    <div id="cardsContainer" class="cards-grid"></div>
+</div>
+<div class="footer"><i class="fas fa-heart" style="color: #c7a55b; margin-right: 6px;"></i> 用心相遇 · 良缘荟高端婚恋</div>
+
+<script>
+    // ---------- 用户认证状态 ----------
+    let currentUser = null;
+
+    // 显示 toast 消息
+    function showToast(message, isError = false) {
+        const existing = document.querySelector('.toast-message');
+        if(existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-heart'}" style="margin-right: 8px;"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 2200);
+    }
+
+    // 获取当前登录用户
+    async function fetchCurrentUser() {
+        try {
+            const res = await fetch('/api/me', { credentials: 'include' });
+            if (res.ok) {
+                currentUser = await res.json();
+            } else {
+                currentUser = null;
+            }
+        } catch (err) {
+            currentUser = null;
+        }
+        updateNavBar();
+    }
+
+    // 登出
+    async function logout() {
+        window.location.href = '/logout';
+    }
+
+    // 渲染右上角 UI
+    function updateNavBar() {
+        const container = document.getElementById('userMenuContainer');
+        if (!container) return;
+        if (!currentUser) {
+            // 未登录：显示 Facebook 和 LinkedIn 登录按钮（直接跳转后端认证路由）
+            container.innerHTML = `
+                <div style="display: flex; gap: 12px;">
+                    <a href="/auth/facebook" class="nav-btn" style="background:#1877F2; color:white; border:none;"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="/auth/linkedin" class="nav-btn" style="background:#0A66C2; color:white; border:none;"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                </div>
+            `;
+        } else {
+            const initials = currentUser.name ? currentUser.name.charAt(0) : 'U';
+            container.innerHTML = `
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar">${initials}</div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">
+                            <p>${currentUser.name}</p>
+                            <span><i class="fab fa-${currentUser.provider}"></i> via ${currentUser.provider === 'facebook' ? 'Facebook' : 'LinkedIn'}</span>
+                        </div>
+                        <div class="dropdown-item" id="profileItem"><i class="fas fa-user-circle"></i> 我的资料</div>
+                        <div class="dropdown-item" id="likedItem"><i class="fas fa-heart"></i> 心动记录</div>
+                        <div class="dropdown-item logout-item" id="logoutItem"><i class="fas fa-sign-out-alt"></i> 登出</div>
+                    </div>
+                </div>
+            `;
+            const userMenu = document.getElementById('userMenu');
+            const toggleDropdown = () => userMenu.classList.toggle('active');
+            userMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleDropdown();
+            });
+            document.getElementById('logoutItem')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                logout();
+            });
+            document.getElementById('profileItem')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showToast("✨ 资料完善中，高端认证即将开放", false);
+                userMenu.classList.remove('active');
+            });
+            document.getElementById('likedItem')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showToast("💖 你的心动嘉宾都在这里", false);
+                userMenu.classList.remove('active');
+            });
+            // 点击外部关闭菜单
+            const closeDropdown = (ev) => {
+                if (!userMenu.contains(ev.target)) userMenu.classList.remove('active');
+            };
+            document.removeEventListener('click', closeDropdown);
+            document.addEventListener('click', closeDropdown);
+        }
+    }
+
+    // ---------- 以下为原有的会员卡片数据和渲染逻辑 ----------
+    const usersData = [
+        { id: 1, name: "陈雨桐", age: 28, gender: "女", occupation: "私募基金副总裁", city: "上海", bio: "金融精英，热爱马术和古典音乐，期待精神同频的伴侣。", likesCount: 47, isLiked: false, avatarColor: "6c5b7b" },
+        { id: 2, name: "赵禹博", age: 33, gender: "男", occupation: "建筑设计总监", city: "杭州", bio: "留英建筑学硕士，痴迷摄影与旅行，愿寻一同看世界的你。", likesCount: 32, isLiked: false, avatarColor: "2c6e9e" },
+        { id: 3, name: "林晚晴", age: 26, gender: "女", occupation: "双语主持人", city: "北京", bio: "阳光开朗，热衷公益，期待一份真诚温暖的长期关系。", likesCount: 68, isLiked: false, avatarColor: "bc9a6c" },
+        { id: 4, name: "江一舟", age: 39, gender: "男", occupation: "科技公司CTO", city: "深圳", bio: "理性与浪漫并存，徒步爱好者，希望遇到灵魂伴侣。", likesCount: 21, isLiked: false, avatarColor: "4a6b7f" },
+        { id: 5, name: "沈清如", age: 31, gender: "女", occupation: "艺术品策展人", city: "成都", bio: "喜欢美术馆与下午茶，温柔坚定，期待细水长流的感情。", likesCount: 53, isLiked: false, avatarColor: "b28b5e" },
+        { id: 6, name: "许泽言", age: 35, gender: "男", occupation: "投行董事", city: "香港", bio: "高尔夫与威士忌，上进且顾家，期待相同价值观的你。", likesCount: 44, isLiked: false, avatarColor: "3a6b52" },
+        { id: 7, name: "宋乐怡", age: 27, gender: "女", occupation: "独立珠宝设计师", city: "苏州", bio: "浪漫细腻，养了一只布偶猫，期待温暖可靠的归宿。", likesCount: 59, isLiked: false, avatarColor: "c2835c" },
+        { id: 8, name: "周明远", age: 42, gender: "男", occupation: "医疗集团合伙人", city: "广州", bio: "马拉松爱好者，沉稳豁达，愿以真心换真心。", likesCount: 38, isLiked: false, avatarColor: "2f5d6e" },
+        { id: 9, name: "叶知秋", age: 29, gender: "女", occupation: "律师", city: "南京", bio: "理性也爱撒娇，喜欢爵士乐，想谈一场双向奔赴的恋爱。", likesCount: 45, isLiked: false, avatarColor: "b2594b" },
+        { id: 10, name: "程以安", age: 36, gender: "男", occupation: "国际品牌PR", city: "上海", bio: "幽默绅士，钟爱烹饪与电影，寻找一起创造美好日常的你。", likesCount: 29, isLiked: false, avatarColor: "4e6e5e" }
+    ];
+
+    function getAvatarUrl(name, bgColor) {
+        let color = bgColor || "b3a582";
+        return `https://ui-avatars.com/api/?background=${color}&color=fff&bold=true&size=120&length=2&name=${encodeURIComponent(name)}`;
+    }
+
+    let currentGenderFilter = "all";
+    let currentAgeFilter = "all";
+    function isAgeInRange(age, rangeStr) {
+        if (rangeStr === "all") return true;
+        if (rangeStr === "20-30") return age >= 20 && age <= 30;
+        if (rangeStr === "31-40") return age >= 31 && age <= 40;
+        if (rangeStr === "41-50") return age >= 41 && age <= 50;
+        return true;
+    }
+    function getFilteredUsers() {
+        return usersData.filter(user => (currentGenderFilter === "all" || user.gender === currentGenderFilter) && isAgeInRange(user.age, currentAgeFilter));
+    }
+    function toggleLike(userId) {
+        const user = usersData.find(u => u.id === userId);
+        if (!user) return;
+        user.isLiked = !user.isLiked;
+        user.likesCount = Math.max(0, user.likesCount + (user.isLiked ? 1 : -1));
+        showToast(user.isLiked ? `✨ 你对 ${user.name} 表达了倾心 ✨` : `💔 已取消对 ${user.name} 的心动`);
+        renderCards();
+    }
+    function renderCards() {
+        const container = document.getElementById('cardsContainer');
+        const filtered = getFilteredUsers();
+        if (!filtered.length) {
+            container.innerHTML = `<div class="no-result"><i class="fas fa-search" style="font-size: 2rem;"></i><br>暂无符合条件的会员</div>`;
+            return;
+        }
+        let html = '';
+        filtered.forEach(user => {
+            const avatarUrl = getAvatarUrl(user.name, user.avatarColor);
+            html += `<div class="member-card" data-id="${user.id}">
+                <div class="card-img"><img class="avatar" src="${avatarUrl}"><div class="badge"><i class="fas fa-check-circle"></i> 实名认证</div></div>
+                <div class="card-info">
+                    <div class="name-age"><span class="name">${user.name}</span><span class="age">${user.age}岁</span></div>
+                    <div class="occupation"><i class="fas fa-briefcase"></i> ${user.occupation}</div>
+                    <div class="location"><i class="fas fa-map-marker-alt"></i> ${user.city}</div>
+                    <div class="bio">${user.bio.length > 55 ? user.bio.slice(0,55)+'…' : user.bio}</div>
+                    <div class="card-footer"><button class="like-btn ${user.isLiked ? 'liked' : ''}" data-id="${user.id}"><i class="fas fa-heart"></i><span class="like-count">${user.likesCount}</span></button><span class="view-detail"><i class="far fa-comment-dots"></i> 牵线</span></div>
+                </div></div>`;
+        });
+        container.innerHTML = html;
+        document.querySelectorAll('.like-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleLike(parseInt(btn.dataset.id));
+            });
+        });
+    }
+    function updateFiltersAndRender() {
+        currentGenderFilter = document.getElementById('filterGender').value;
+        currentAgeFilter = document.getElementById('filterAge').value;
+        renderCards();
+    }
+    function resetFilters() {
+        document.getElementById('filterGender').value = 'all';
+        document.getElementById('filterAge').value = 'all';
+        currentGenderFilter = 'all';
+        currentAgeFilter = 'all';
+        renderCards();
+        showToast("筛选已重置");
+    }
+    function initListeners() {
+        document.getElementById('filterGender')?.addEventListener('change', updateFiltersAndRender);
+        document.getElementById('filterAge')?.addEventListener('change', updateFiltersAndRender);
+        document.getElementById('resetFilterBtn')?.addEventListener('click', resetFilters);
+    }
+
+    // 页面初始化
+    async function init() {
+        initListeners();
+        await fetchCurrentUser();
+        renderCards();
+    }
+    init();
+</script>
+</body>
+</html>

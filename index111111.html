@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>良缘荟 | 高端菁英相亲平台</title>
+    <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 外部样式表 -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -35,25 +37,7 @@
 </div>
 <div class="footer"><i class="fas fa-heart" style="color: #c7a55b; margin-right: 6px;"></i> 用心相遇 · 良缘荟高端婚恋</div>
 
-<!-- 手机登录弹窗 -->
-<div id="phoneLoginModal" class="modal" style="display: none;">
-    <div class="modal-card" style="width: 360px;">
-        <i class="fas fa-mobile-alt" style="font-size: 2rem; color: #c7a55b;"></i>
-        <h3>手机号登录 / 注册</h3>
-        <div style="margin: 20px 0;">
-            <input type="tel" id="phoneNumber" placeholder="请输入手机号" class="phone-input">
-            <div style="display: flex; gap: 12px; margin-top: 15px;">
-                <input type="text" id="smsCode" placeholder="验证码" class="phone-input" style="flex:1;">
-                <button id="getSmsCodeBtn" class="social-btn" style="background:#c7a55b; color:white; white-space: nowrap;">获取验证码</button>
-            </div>
-            <div style="margin-top: 20px;">
-                <button id="phoneLoginBtn" class="social-btn" style="background:#5a3f28; color:white; width:100%;">登录 / 注册</button>
-            </div>
-        </div>
-        <div style="margin-top: 10px; font-size: 12px; color:#b29476;">🔒 模拟短信验证 • 本地存储手机号</div>
-    </div>
-</div>
-
+<!-- 外部 JavaScript -->
 <script src="js/main.js" defer></script>
 </body>
 </html>
