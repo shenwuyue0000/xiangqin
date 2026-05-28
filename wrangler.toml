@@ -2,6 +2,6 @@ name = "xiangqin"
 pages_build_output_dir = "./"
 
 [[d1_databases]]
-binding = "xiangqin_user_auth"                # 环境变量名，在 Function 中用 env.DB 访问
+binding = "DB"                # 环境变量名，在 Function 中用 env.DB 访问
 database_name = "xiangqin_user_auth"
 database_id = "d866eee0-0e47-4556-841c-29604653ee9b"
